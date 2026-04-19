@@ -5,17 +5,6 @@
 
 #pragma once
 
-// Content:
+// Content: Library compile options
 
-// <includes: std>
-
-// <includes: external>
-
-// <includes: tmc>
-
-
-namespace tmc {
-
-// <code>
-    
-} // namespace tmc
+#define TMC_CONFIG_HARDENED 1 // use hardened implementation with Release assertions

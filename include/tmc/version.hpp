@@ -5,17 +5,8 @@
 
 #pragma once
 
-// Content:
+// Content: Library version macros
 
-// <includes: std>
-
-// <includes: external>
-
-// <includes: tmc>
-
-
-namespace tmc {
-
-// <code>
-    
-} // namespace tmc
+#define TMC_VERSION_MAJOR 0
+#define TMC_VERSION_MINOR 1
+#define TMC_VERSION_PATCH 0
