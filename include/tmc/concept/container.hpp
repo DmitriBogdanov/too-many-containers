@@ -10,6 +10,8 @@
 #include <concepts> // std::convertible_to<>
 #include <ranges>   // std::ranges::iterator_t<>
 
+#include <tmc/concept/structure.hpp> // tmc::req::decomposable_pair<>
+
 
 namespace tmc::req {
 
@@ -38,59 +40,42 @@ concept provides_bracket_operator_for = requires(R range, K key) {
     { range[key] } -> std::convertible_to<V>;
 };
 
-template <class R, class K, class V>
+template <class R, class K>
 concept provides_equal_range_for = requires(R range, K key) {
-    { range.equal_range(key) } -> std::convertible_to<V>;
+    { range.equal_range(key) } -> req::decomposable_pair<std::ranges::iterator_t<R>>;
 };
 
 template <class R, class... Args>
-concept provides_emplace_for = requires(R range, Args&&... args) {
-    range.emplace(std::forward<Args>(args)...);
-};
+concept provides_emplace_for = requires(R range, Args&&... args) { range.emplace(std::forward<Args>(args)...); };
 
 template <class R, class... Args>
-concept provides_try_emplace_for = requires(R range, Args&&... args) {
-    range.try_emplace(std::forward<Args>(args)...);
-};
+concept provides_try_emplace_for =
+    requires(R range, Args&&... args) { range.try_emplace(std::forward<Args>(args)...); };
 
 template <class R, class... Args>
-concept provides_emplace_back_for = requires(R range, Args&&... args) {
-    range.emplace_back(std::forward<Args>(args)...);
-};
+concept provides_emplace_back_for =
+    requires(R range, Args&&... args) { range.emplace_back(std::forward<Args>(args)...); };
 
 template <class R, class... Args>
-concept provides_emplace_front_for = requires(R range, Args&&... args) {
-    range.emplace_front(std::forward<Args>(args)...);
-};
+concept provides_emplace_front_for =
+    requires(R range, Args&&... args) { range.emplace_front(std::forward<Args>(args)...); };
 
 template <class R, class... Args>
-concept provides_insert_for = requires(R range, Args&&... args) {
-    range.insert(std::forward<Args>(args)...);
-};
+concept provides_insert_for = requires(R range, Args&&... args) { range.insert(std::forward<Args>(args)...); };
 
 template <class R, class... Args>
-concept provides_push_back_for = requires(R range, Args&&... args) {
-    range.push_back(std::forward<Args>(args)...);
-};
+concept provides_push_back_for = requires(R range, Args&&... args) { range.push_back(std::forward<Args>(args)...); };
 
 template <class R, class... Args>
-concept provides_push_front_for = requires(R range, Args&&... args) {
-    range.push_front(std::forward<Args>(args)...);
-};
+concept provides_push_front_for = requires(R range, Args&&... args) { range.push_front(std::forward<Args>(args)...); };
 
 template <class R, class... Args>
-concept provides_erase_for = requires(R range, Args&&... args) {
-    range.erase(std::forward<Args>(args)...);
-};
+concept provides_erase_for = requires(R range, Args&&... args) { range.erase(std::forward<Args>(args)...); };
 
 template <class R, class S = std::size_t>
-concept provides_resize = requires(R range, S size) {
-    range.resize(size);
-};
+concept provides_resize = requires(R range, S size) { range.resize(size); };
 
 template <class R, class S = std::size_t>
-concept provides_reserve = requires(R range, S capacity) {
-    range.resize(capacity);
-};
+concept provides_reserve = requires(R range, S capacity) { range.resize(capacity); };
 
 } // namespace tmc::req
