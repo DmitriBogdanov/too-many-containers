@@ -7,10 +7,10 @@
 
 // Content: Constraints for structures & classes
 
-#include <concepts> // std::convertible_to<>
-#include <tuple>    // std::make_tuple(), std::tuple<>
-#include <utility>  // std::forward()
-#include <type_traits> // std::is_aggregate_v<>
+#include <concepts>    // std::convertible_to<>
+#include <tuple>       // std::make_tuple(), std::tuple<>
+#include <type_traits> // std::is_aggregate_v<>, std::is_trivially_default_constructible_v<>, ...
+#include <utility>     // std::forward()
 
 
 namespace tmc::req::detail {
