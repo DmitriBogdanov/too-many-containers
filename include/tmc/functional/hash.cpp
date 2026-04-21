@@ -15,14 +15,12 @@
 namespace tmc {
 
 struct hash {
-    
     using is_transparent = std::true_type;
-    
+
     template <class T>
     [[nodiscard]] constexpr std::size_t operator()(T&& value) const noexcept {
         return std::hash<std::remove_cvref_t<T>>{}(std::forward<T>(value));
-    } 
-    
+    }
 };
-    
+
 } // namespace tmc
