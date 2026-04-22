@@ -3,7 +3,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-// Content:
+// Content: Transparent comparator tests
 
 #include <common/framework.hpp>
 
@@ -16,7 +16,6 @@
 
 
 TEST_CASE("Transparent hash and comparators") {
-
     static_assert(tmc::req::transparent<tmc::equal>);
     static_assert(tmc::req::transparent<tmc::not_equal>);
     static_assert(tmc::req::transparent<tmc::greater>);

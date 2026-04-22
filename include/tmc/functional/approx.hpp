@@ -7,10 +7,11 @@
 
 // Content: Floating-point wrapper for comparing with tolerance
 
-#include <cmath>    // std::isfinite, std::abs()
 #include <compare>  // std::partial_ordering
 #include <concepts> // std::floating_point<>, std::same_as<>
 #include <limits>   // std::numeric_limits<>
+
+#include <tmc/utility/math.hpp> // tmc::math::isfinite(), tmc::math::distance()
 
 
 namespace tmc {
@@ -38,18 +39,23 @@ struct approx {
     constexpr approx(value_type value) noexcept : value(value) {}
 
     // Approximate comparator
-    [[nodiscard]] constexpr std::partial_ordering operator<=>(approx other) noexcept {
+    [[nodiscard]] constexpr std::partial_ordering operator<=>(approx other) const noexcept {
         static_assert(std::three_way_comparable<value_type, std::partial_ordering>);
 
-        const auto eval_lhs_is_finite         = [&] { return std::isfinite(this->value); };
-        const auto eval_rhs_is_finite         = [&] { return std::isfinite(other.value); };
-        const auto eval_delta_below_tolerance = [&] { return std::abs(this->value - other.value) < approx::tolerance; };
+        const auto eval_lhs_is_finite = [&] { return math::isfinite(this->value); };
+        const auto eval_rhs_is_finite = [&] { return math::isfinite(other.value); };
+        const auto eval_diff_is_small = [&] { return math::distance(this->value, other.value) < approx::tolerance; };
 
-        if (eval_lhs_is_finite() and eval_rhs_is_finite() and eval_delta_below_tolerance())
+        if (eval_lhs_is_finite() and eval_rhs_is_finite() and eval_diff_is_small())
             return std::partial_ordering::equivalent;
 
         return std::partial_order(this->value, other.value);
     }
+    
+    // Partial ordering does not synthesize equality unless we explicitly specify it
+    [[nodiscard]] constexpr bool operator==(approx other) const noexcept {
+        return std::is_eq(*this <=> other);
+    };
 };
 
 } // namespace tmc
