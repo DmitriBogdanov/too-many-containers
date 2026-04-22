@@ -49,4 +49,13 @@ concept trivially_constructible = std::is_trivially_constructible_v<T, Args...>;
 template <class T>
 concept trivially_copyable = std::is_trivially_copyable_v<T>;
 
+template <class T>
+concept transparent = requires { typename T::is_transparent; };
+// this annotation signifies transparent hashes and comparators
+
+template <class T>
+concept avalanching = requires { typename T::is_avalanching; };
+// this annotation signifies hashes with avalanching effect (any change
+// in the input bits has a 50/50 chance to flip all bits of the hash)
+
 } // namespace tmc::req
