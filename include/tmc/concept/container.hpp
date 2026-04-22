@@ -70,6 +70,18 @@ template <class R, class... Args>
 concept provides_push_front_for = requires(R range, Args&&... args) { range.push_front(std::forward<Args>(args)...); };
 
 template <class R, class... Args>
+concept provides_push_for = requires(R range, Args&&... args) { range.push(std::forward<Args>(args)...); };
+
+template <class R>
+concept provides_pop_back = requires(R range) { range.pop_back(); };
+
+template <class R>
+concept provides_pop_front = requires(R range) { range.pop_front(); };
+
+template <class R>
+concept provides_pop = requires(R range) { range.pop(); };
+
+template <class R, class... Args>
 concept provides_erase_for = requires(R range, Args&&... args) { range.erase(std::forward<Args>(args)...); };
 
 template <class R, class S = std::size_t>
@@ -77,5 +89,8 @@ concept provides_resize = requires(R range, S size) { range.resize(size); };
 
 template <class R, class S = std::size_t>
 concept provides_reserve = requires(R range, S capacity) { range.resize(capacity); };
+
+template <class R>
+concept provides_dereference = requires(R range) { *range; };
 
 } // namespace tmc::req
