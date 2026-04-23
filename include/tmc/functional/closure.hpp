@@ -12,9 +12,9 @@
 
 namespace tmc {
 
-// Base class for single-value closures. To avoid dangling references on r-value 
+// Base class for single-value closures. To avoid dangling references on r-value
 // capture, r-values should be captured by value & moved into the closure, e.g.:
-//  
+//
 //    singular_closure{ <  const reference> } -> singular_closure<const T&>
 //    singular_closure{ <l-value reference> } -> singular_closure<      T&>
 //    singular_closure{ <r-value reference> } -> singular_closure<      T >
@@ -25,7 +25,7 @@ namespace tmc {
 template <class T>
 struct singular_closure {
     using value_type = T;
-    
+
     value_type value;
 };
 
@@ -37,13 +37,13 @@ singular_closure(T&&) -> singular_closure<T>;
 template <class... Args>
 struct variadic_closure {
     using value_type = tmc::tuple<Args...>;
-    
+
     value_type value;
-    
+
     variadic_closure(Args&&... args) : value(std::forward<Args>(args)...) {}
 };
 
 template <class... Args>
 variadic_closure(Args&&...) -> variadic_closure<Args...>;
-    
+
 } // namespace tmc

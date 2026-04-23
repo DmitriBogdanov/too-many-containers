@@ -10,7 +10,7 @@
 #include <concepts> // std::constructible_from<>
 #include <mutex>    // std::mutex, std::scoped_lock
 
-#include <tmc/concept/structure.hpp> // tmc::req
+#include <tmc/concept/structure.hpp> // tmc::req::nothrow_constructible<>
 
 
 namespace tmc {
