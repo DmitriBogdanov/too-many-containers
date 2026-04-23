@@ -50,6 +50,45 @@ template <class T>
 concept trivially_copyable = std::is_trivially_copyable_v<T>;
 
 template <class T>
+concept default_constructible = std::is_default_constructible_v<T>;
+
+template <class T>
+concept copy_constructible = std::is_copy_constructible_v<T>;
+
+template <class T>
+concept move_constructible = std::is_move_constructible_v<T>;
+
+template <class T, class Args>
+concept assignable = std::is_assignable_v<T, Args>;
+
+template <class T>
+concept copy_assignable = std::is_copy_assignable_v<T>;
+
+template <class T>
+concept move_assignable = std::is_move_assignable_v<T>;
+
+template <class T>
+concept nothrow_default_constructible = std::is_nothrow_default_constructible_v<T>;
+
+template <class T, class... Args>
+concept nothrow_constructible = std::is_nothrow_constructible_v<T, Args...>;
+
+template <class T>
+concept nothrow_copy_constructible = std::is_nothrow_copy_constructible_v<T>;
+
+template <class T>
+concept nothrow_move_constructible = std::is_nothrow_move_constructible_v<T>;
+
+template <class T>
+concept nothrow_copy_assignable = std::is_nothrow_copy_assignable_v<T>;
+
+template <class T>
+concept nothrow_move_assignable = std::is_nothrow_move_assignable_v<T>;
+
+template <class T, class Arg>
+concept nothrow_assignable = std::is_nothrow_assignable_v<T, Arg>;
+
+template <class T>
 concept transparent = requires { typename T::is_transparent; };
 // this annotation signifies transparent hashes and comparators
 

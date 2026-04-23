@@ -1,6 +1,8 @@
 # Create test target
 add_executable(tmc_test
     "source/main.cpp"
+    "source/concurrency/locked_ref.cpp"
+    "source/functional/approx.cpp"
     "source/functional/compare.cpp"
 )
 
