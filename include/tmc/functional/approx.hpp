@@ -26,7 +26,7 @@ static_assert(std::same_as<decltype(1.f <=> 2.f), std::partial_ordering>);
 // This behaviour preserves partial ordering.
 // Template type parameter can be omitted since it's deducible from the tolerance.
 //
-template <auto epsilon = std::numeric_limits<double>::epsilon()>
+template <auto epsilon>
     requires std::floating_point<decltype(epsilon)>
 struct approx {
     using value_type = decltype(epsilon);
@@ -51,11 +51,14 @@ struct approx {
 
         return std::partial_order(this->value, other.value);
     }
-    
+
     // Partial ordering does not synthesize equality unless we explicitly specify it
-    [[nodiscard]] constexpr bool operator==(approx other) const noexcept {
-        return std::is_eq(*this <=> other);
-    };
+    [[nodiscard]] constexpr bool operator==(approx other) const noexcept { return std::is_eq(*this <=> other); };
 };
+
+// `approx{ value }` should only work for floating-point values using their corresponding epsilon as
+// tolerance, we don't want `approx{ int{} }` to compile without manually specifying its interpretation
+template <std::floating_point T>
+approx(T) -> approx<std::numeric_limits<T>::epsilon()>;
 
 } // namespace tmc

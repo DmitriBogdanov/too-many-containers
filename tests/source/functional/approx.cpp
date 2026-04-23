@@ -28,14 +28,14 @@ TEST_CASE("Compile-time math") {
 }
 
 TEST_CASE("Approx float comparator type") {
-    // By default approx. is always interpreted `double`
-    constexpr auto approx_from_i32 = tmc::approx{ std::int32_t{} };
+    // Approx deduces its tolerance type & value from the argument floating-point type
     constexpr auto approx_from_f32 = tmc::approx{ float{} };
     constexpr auto approx_from_f64 = tmc::approx{ double{} };
     
-    static_assert(std::same_as<decltype(approx_from_i32)::value_type, double>);
-    static_assert(std::same_as<decltype(approx_from_f32)::value_type, double>);
+    static_assert(std::same_as<decltype(approx_from_f32)::value_type, float>);
     static_assert(std::same_as<decltype(approx_from_f64)::value_type, double>);
+    
+    // constexpr auto approx_from_i32 = tmc::approx{ int{} }; // won't compile, can't deduce
     
     // If we specify `double` tolerance, it should deduce `double`
     constexpr auto approx_f64_tol_from_i32 = tmc::approx<1e-6>{ std::int32_t{} };
@@ -58,6 +58,9 @@ TEST_CASE("Approx float comparator type") {
 TEST_CASE("Approx float comparator behaviour") {
     static_assert(tmc::approx{ 0.0 } == 0);
     static_assert(0 == tmc::approx{ 0.0 });
+    
+    static_assert(tmc::approx{ 0.f } == 0);
+    static_assert(0 == tmc::approx{ 0.f });
     
     static_assert(tmc::approx{ 1 + 1e-20 } == 1);
     static_assert(1 == tmc::approx{ 1 + 1e-20 });
