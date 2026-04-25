@@ -97,5 +97,4 @@ struct not_equal_to : singular_closure<T> {
 template <class T>
 not_equal_to(T&&) -> not_equal_to<T>;
 
-
 } // namespace tmc

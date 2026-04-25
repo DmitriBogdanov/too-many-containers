@@ -4,6 +4,7 @@ add_executable(tmc_test
     "source/concurrency/locked_ref.cpp"
     "source/functional/approx.cpp"
     "source/functional/compare.cpp"
+    "source/structure/allocation_ptr.cpp"
 )
 
 target_compile_features   (tmc_test PRIVATE ${TMC_COMPILE_FEATURES}              )
