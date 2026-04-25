@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.21.0...3.22.1)
 
 project(
     TMC
-    VERSION       0.1.0
+    VERSION       0.2.0
     DESCRIPTION  "Comprehensive container library for C++23"
     HOMEPAGE_URL "https://github.com/DmitriBogdanov/too-many-containers"
 )
