@@ -32,12 +32,16 @@ struct format_string_with_location {
     std::source_location        loc;
 
     template <class T>
-    consteval format_string_with_location(const T&             str,
-                                          std::source_location loc = std::source_location::current()) noexcept
+    consteval format_string_with_location(
+        const T&             str,
+        std::source_location loc = std::source_location::current()
+    ) noexcept
         : fmt(str), loc(loc) {}
 
-    consteval format_string_with_location(std::format_string<Args...> fmt,
-                                          std::source_location        loc = std::source_location::current()) noexcept
+    consteval format_string_with_location(
+        std::format_string<Args...> fmt,
+        std::source_location        loc = std::source_location::current()
+    ) noexcept
         : fmt(fmt), loc(loc) {}
 };
 

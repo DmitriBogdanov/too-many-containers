@@ -48,7 +48,7 @@ template <class T, class Alloc, class... Args>
     using rebound_allocator = typename std::allocator_traits<Alloc>::template rebind_alloc<T>;
     using allocator_deleter = detail::allocator_deleter<rebound_allocator>;
 
-    auto deleter = allocator_deleter{rebound_allocator{alloc}};
+    auto deleter = allocator_deleter{ rebound_allocator{ alloc } };
 
     // Allocate memory & placement-new-construct into it, in case construction
     // threw an exception we should cleanup allocation & rethrow it down the stack
@@ -61,7 +61,7 @@ template <class T, class Alloc, class... Args>
         throw;
     }
 
-    return tmc::allocation_ptr<T, rebound_allocator>{ptr, std::move(deleter)};
+    return tmc::allocation_ptr<T, rebound_allocator>{ ptr, std::move(deleter) };
 }
 
 } // namespace tmc

@@ -30,10 +30,10 @@ TEST_CASE("Singular closure capture") {
     int value = 0;
 
     // Closures should capture l-values by reference and r-values by value
-    const auto c_closure = tmc::singular_closure{std::as_const(value)};
-    const auto l_closure = tmc::singular_closure{value};
-    const auto r_closure = tmc::singular_closure{std::move(value)};
-    const auto v_closure = tmc::singular_closure{1};
+    const auto c_closure = tmc::singular_closure{ std::as_const(value) };
+    const auto l_closure = tmc::singular_closure{ value };
+    const auto r_closure = tmc::singular_closure{ std::move(value) };
+    const auto v_closure = tmc::singular_closure{ 1 };
 
     static_assert(std::same_as<decltype(c_closure)::value_type, const int&>);
     static_assert(std::same_as<decltype(l_closure)::value_type, int&>);
@@ -47,7 +47,7 @@ TEST_CASE("Variadic closure capture") {
     std::uint64_t c = 2;
 
     // Closures should capture l-values by reference and r-values by value
-    const auto closure = tmc::variadic_closure{a, std::as_const(b), std::move(c), 1};
+    const auto closure = tmc::variadic_closure{ a, std::as_const(b), std::move(c), 1 };
 
     using expected_value_type = tmc::tuple<std::uint16_t&, const std::uint32_t&, std::uint64_t, int>;
 

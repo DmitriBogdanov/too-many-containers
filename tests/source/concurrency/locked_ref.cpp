@@ -31,7 +31,7 @@ TEST_CASE("Locked reference to primitive") {
     std::mutex  mutex = {};
 
     // Locked reference should deduce types
-    auto reference = tmc::locked_ref{count, mutex};
+    auto reference = tmc::locked_ref{ count, mutex };
 
     using expected_locked_ref_type = tmc::locked_ref<std::size_t, std::scoped_lock<std::mutex>>;
 
@@ -56,12 +56,12 @@ TEST_CASE("Locked reference to primitive") {
 }
 
 TEST_CASE("Locked reference to class") {
-    some_structure    object  = {.member_0 = 10, .member_1 = 20};
+    some_structure    object  = { .member_0 = 10, .member_1 = 20 };
     std::mutex        mutex_0 = {};
     std::shared_mutex mutex_1 = {};
 
     // Locked ref should deduce multiple mutexes as a scoped lock
-    auto reference = tmc::locked_ref{object, mutex_0, mutex_1};
+    auto reference = tmc::locked_ref{ object, mutex_0, mutex_1 };
 
     using expected_locked_ref_type = tmc::locked_ref<some_structure, std::scoped_lock<std::mutex, std::shared_mutex>>;
 
@@ -76,20 +76,20 @@ TEST_CASE("Locked reference to class") {
 TEST_CASE("Locked reference constraints") {
     using scoped_lock = std::scoped_lock<std::mutex>;
     using unique_lock = std::unique_lock<std::mutex>;
-    
+
     using scoped_locked_ref = tmc::locked_ref<int, scoped_lock>;
     using unique_locked_ref = tmc::locked_ref<int, unique_lock>;
-    
+
     // Some lock types allow default initialization and moving, e.g. unique lock:
     static_assert(not std::default_initializable<scoped_lock>);
     static_assert(std::default_initializable<unique_lock>);
-    
+
     static_assert(not std::copyable<scoped_lock>);
     static_assert(not std::copyable<unique_lock>);
-    
+
     static_assert(not std::movable<scoped_lock>);
     static_assert(std::movable<unique_lock>);
-    
+
     // Locked references are always non-empty, they cannot be default
     // initialized (even if the underlying lock is default-initializable)
     static_assert(not std::default_initializable<scoped_locked_ref>);
@@ -98,13 +98,13 @@ TEST_CASE("Locked reference constraints") {
     // Locked reference are immovable and cannot be rebound (like regular references)
     static_assert(not std::copyable<scoped_locked_ref>);
     static_assert(not std::movable<scoped_locked_ref>);
-    
+
     static_assert(not std::copyable<unique_locked_ref>);
     static_assert(not std::movable<unique_locked_ref>);
-    
+
     static_assert(not tmc::req::copy_assignable<scoped_locked_ref>);
     static_assert(not tmc::req::copy_assignable<unique_locked_ref>);
-    
+
     static_assert(not tmc::req::move_assignable<scoped_locked_ref>);
     static_assert(not tmc::req::move_assignable<unique_locked_ref>);
 }
