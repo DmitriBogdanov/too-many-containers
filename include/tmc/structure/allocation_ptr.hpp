@@ -9,9 +9,10 @@
 
 #include <memory> // std::unique_ptr<>, std::construct_at(), std::destroy_at()
 
-#include <tmc/concept/structure.hpp> // tmc::req::nothrow_copy_constructible<>
-#include <tmc/memory/allocator.hpp>  // tmc::allocator<>
-#include <tmc/utility/platform.hpp>  // TMC_NO_UNIQUE_ADDRESS
+#include <tmc/concept/requirements.hpp> // tmc::req::cv_unqualified, tmc::req::allocator_for<>
+#include <tmc/concept/structure.hpp>    // tmc::req::nothrow_copy_constructible<>
+#include <tmc/memory/allocator.hpp>     // tmc::allocator<>
+#include <tmc/utility/platform.hpp>     // TMC_NO_UNIQUE_ADDRESS
 
 
 namespace tmc::detail {
@@ -38,10 +39,10 @@ public:
 
 namespace tmc {
 
-template <class T, class Alloc = tmc::allocator<T>>
+template <class T, req::allocator_for<T> Alloc = tmc::allocator<T>>
 using allocation_ptr = std::unique_ptr<T, detail::allocator_deleter<Alloc>>;
 
-template <class T, class Alloc, class... Args>
+template <class T, req::allocator_for<T> Alloc, class... Args>
 [[nodiscard]] constexpr auto allocate_unique(const Alloc& alloc, Args&&... args) {
     // Following the convention of `std::allocate_shared<T>()`,
     // we should rebind allocator in case its type didn't match

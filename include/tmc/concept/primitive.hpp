@@ -23,6 +23,9 @@ template <class T>
 concept const_reference = std::is_reference_v<T> and std::is_const_v<std::remove_reference_t<T>>;
 
 template <class T>
+concept cv_unqualified = not std::is_const_v<T> and not std::is_volatile_v<T>;
+
+template <class T>
 concept enumeration = std::is_enum_v<T>;
 
 template <class T>

@@ -12,12 +12,13 @@
 #include <source_location> // std::source_location
 #include <string_view>     // std::string_view
 
-#include <tmc/config.hpp> // TMC_CONFIG_HARDENED
+#include <tmc/config.hpp>           // TMC_CONFIG_HARDENED
+#include <tmc/utility/platform.hpp> // TMC_NO_INLINE
 
 
 namespace tmc::detail {
 
-[[noreturn]] inline void assertion_handler(
+[[noreturn]] TMC_NO_INLINE inline void assertion_handler(
     std::string_view     cond,
     std::source_location loc = std::source_location::current()
 ) {
