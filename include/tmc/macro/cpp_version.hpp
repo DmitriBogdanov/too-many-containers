@@ -5,14 +5,11 @@
 
 #pragma once
 
-// <includes: std>
+#if defined(_MSC_VER) and defined(_MSVC_LANG)
+    #define TMC_CPP_VERSION _MSVC_LANG
+#else
+    #define TMC_CPP_VERSION __cplusplus
+#endif
 
-// <includes: external>
-
-// <includes: tmc>
-
-namespace tmc {
-
-// <code>
-    
-} // namespace tmc
+#define TMC_CPP_20 202002L
+#define TMC_CPP_23 202302L

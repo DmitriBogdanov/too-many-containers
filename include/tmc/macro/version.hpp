@@ -3,13 +3,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-#include <common/framework.hpp>
+#pragma once
 
-// <includes: std>
-
-// <includes: tmc>
-
-
-TEST_CASE("") {
-    
-}
+#define TMC_VERSION_MAJOR 0
+#define TMC_VERSION_MINOR 3
+#define TMC_VERSION_PATCH 5

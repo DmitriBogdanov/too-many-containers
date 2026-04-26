@@ -3,13 +3,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-#include <common/framework.hpp>
+#pragma once
 
-// <includes: std>
-
-// <includes: tmc>
-
-
-TEST_CASE("") {
-    
-}
+#ifdef TMC_DISABLE_NO_DISCARD
+    #define TMC_NO_DISCARD
+#else
+    #define TMC_NO_DISCARD [[nodiscard]]
+#endif
