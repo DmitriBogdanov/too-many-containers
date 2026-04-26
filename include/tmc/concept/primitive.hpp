@@ -14,6 +14,9 @@
 namespace tmc::req {
 
 template <class T>
+concept reference = std::is_reference_v<T>;
+    
+template <class T>
 concept rvalue_reference = std::is_rvalue_reference_v<T>;
 
 template <class T>
@@ -24,6 +27,12 @@ concept const_reference = std::is_reference_v<T> and std::is_const_v<std::remove
 
 template <class T>
 concept cv_unqualified = not std::is_const_v<T> and not std::is_volatile_v<T>;
+
+template <class T>
+concept array = std::is_array_v<T>;
+
+template <class T>
+concept non_array = not std::is_array_v<T>;
 
 template <class T>
 concept enumeration = std::is_enum_v<T>;

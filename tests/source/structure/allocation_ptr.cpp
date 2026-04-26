@@ -12,19 +12,31 @@
 #include <tmc/structure/allocation_ptr.hpp> // tmc::allocation_ptr<>
 
 
+namespace {
+
+struct incomplete_type;
+
+} // namespace
+
+
 TEST_CASE("allocation_ptr<T> type properties") {
     using array_type = std::array<std::uint64_t, 64>;
     using alloc_type = tmc::allocator<array_type>;
 
     // Stateless allocators should not affect object size
     static_assert(sizeof(tmc::allocation_ptr<array_type>) == sizeof(std::unique_ptr<array_type>));
-    
+
     // Pointer should be move-only
     static_assert(not std::copyable<tmc::allocation_ptr<array_type>>);
     static_assert(std::movable<tmc::allocation_ptr<array_type>>);
-    
+
     // Move should be non-throwing
     static_assert(tmc::req::nothrow_move_constructible<tmc::allocation_ptr<array_type>>);
+    
+    // Incomplete types should be supported (completeness is only requires when we actually invoke the allocation)
+    using incomplete_allocation_ptr = tmc::allocation_ptr<incomplete_type>;
+    
+    static_assert(std::movable<incomplete_allocation_ptr>);
     
     // `allocate_unique()` should return appropriate type
     auto ptr = tmc::allocate_unique<array_type>(alloc_type{});

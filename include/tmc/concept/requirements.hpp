@@ -27,12 +27,24 @@ namespace tmc::req {
 //       the order & naming used by cppreference, in some cases this
 //       may produce inconsistency with the rest of the codebase.
 
+// `Object` requirement, see https://en.cppreference.com/cpp/language/object
+//
+// Note that array types (e.g. `int[]`) and incomplete types are
+// NOT considered objects since they have no size or alignment.
+//
+template <class T>
+concept object = bool(sizeof(T)) and bool(alignof(T)) and not req::reference<T>;
 
 
 // `Allocator` named requirement, see https://en.cppreference.com/cpp/named_req/Allocator
 //
 // Note that this requirement is more pedantic than the suggested exposition-only concept
 // from C++26, here we actually verify `noexcept` guarantees and fancy pointer operations.
+//
+// Important: This concept should NOT be applied at the top level when building containers
+//            as it requires `T` to be complete (there is no way to verify all requirements
+//            for an incomplete value type), instead it should be used to constrain functions
+//            that do the actual "work" of creation / destruction / allocation / deallocation.
 //
 template <class A, class T>
 concept allocator_for = requires(
@@ -46,6 +58,7 @@ concept allocator_for = requires(
     std::allocator_traits<A>::size_type                                 n
 ) {
     // Allocated type requirements
+    requires req::object<T>;
     requires req::cv_unqualified<T>;
 
     // Member type requirements
@@ -78,5 +91,9 @@ concept allocator_for = requires(
 
     requires req::nothrow_constructible<A, decltype(b)&&>;
 };
+
+template <class A>
+concept allocator = req::allocator_for<A, typename std::allocator_traits<A>::value_type>;
+
 
 } // namespace tmc::req
