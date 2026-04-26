@@ -7,30 +7,29 @@
 
 // Content: Allocator-aware equivalent of `std::unique_ptr<T>`
 
-#include <memory> // std::unique_ptr<>, std::construct_at(), std::destroy_at()
+#include <memory> // std::unique_ptr<>
 
-#include <tmc/concept/requirements.hpp> // tmc::req::cv_unqualified, tmc::req::allocator_for<>
-#include <tmc/concept/structure.hpp>    // tmc::req::nothrow_copy_constructible<>
-#include <tmc/memory/allocator.hpp>     // tmc::allocator<>
-#include <tmc/utility/platform.hpp>     // TMC_NO_UNIQUE_ADDRESS
+#include <tmc/concept/requirements.hpp>    // tmc::req::allocator_for<>
+#include <tmc/detail/allocator_traits.hpp> // tmc::detail::destroy(), tmc::detail::construct(), ...
+#include <tmc/memory/allocator.hpp>        // tmc::allocator<>
+#include <tmc/utility/platform.hpp>        // TMC_NO_UNIQUE_ADDRESS
 
 
 namespace tmc::detail {
 
 template <class Alloc>
-struct allocator_deleter {
+struct allocation_deleter {
     using allocator_type = Alloc;
 
     TMC_NO_UNIQUE_ADDRESS allocator_type alloc;
 
 public:
-    allocator_deleter(const allocator_type& alloc = {}) noexcept(req::nothrow_copy_constructible<allocator_type>)
-        : alloc(alloc) {}
-
+    allocation_deleter(const allocator_type& alloc) noexcept : alloc(alloc) {}
+    // conforming allocators guarantee `noexcept` copy
+    
     void operator()(auto* ptr) {
-        std::destroy_at(ptr); // invokes the destructor
-
-        this->alloc.deallocate(ptr, 1);
+        detail::destroy(this->alloc, ptr);
+        detail::deallocate(this->alloc, ptr, 1);
     }
 };
 
@@ -40,25 +39,26 @@ public:
 namespace tmc {
 
 template <class T, req::allocator_for<T> Alloc = tmc::allocator<T>>
-using allocation_ptr = std::unique_ptr<T, detail::allocator_deleter<Alloc>>;
+using allocation_ptr = std::unique_ptr<T, detail::allocation_deleter<Alloc>>;
 
 template <class T, req::allocator_for<T> Alloc, class... Args>
 [[nodiscard]] constexpr auto allocate_unique(const Alloc& alloc, Args&&... args) {
     // Following the convention of `std::allocate_shared<T>()`,
     // we should rebind allocator in case its type didn't match
-    using rebound_allocator = typename std::allocator_traits<Alloc>::template rebind_alloc<T>;
-    using allocator_deleter = detail::allocator_deleter<rebound_allocator>;
+    using rebound_allocator = detail::rebind_alloc<Alloc, T>;
+    using allocator_deleter = detail::allocation_deleter<rebound_allocator>;
 
     auto deleter = allocator_deleter{ rebound_allocator{ alloc } };
 
     // Allocate memory & placement-new-construct into it, in case construction
     // threw an exception we should cleanup allocation & rethrow it down the stack
-    auto* ptr = deleter.alloc.allocate(1);
+    auto* ptr = detail::allocate(deleter.alloc, 1);
 
     try {
-        ptr = std::construct_at(ptr, std::forward<Args>(args)...);
+        detail::construct(deleter.alloc, ptr, std::forward<Args>(args)...);
     } catch (...) {
-        deleter.alloc.deallocate(ptr, 1);
+        detail::deallocate(deleter.alloc, ptr, 1);
+
         throw;
     }
 
