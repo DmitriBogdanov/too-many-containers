@@ -15,12 +15,6 @@
 
 namespace tmc {
 
-struct nothrow_format_buffer_options {
-    std::size_t format_capacity          = 512;
-    const char* format_exception_message = "[format_exception]";
-    const char* buffer_exhausted_message = "[buffer_exhausted]";
-};
-
 // Static buffer for exception-free runtime formatting, useful for formatting error
 // messages in restricted contexts e.g. exception constructors, panic handlers and etc.
 //
@@ -29,12 +23,12 @@ struct nothrow_format_buffer_options {
 //
 //    "Assertion ... failed at [format_exception] with conte[buffer_exhausted]"
 //
-template <nothrow_format_buffer_options opts = {}>
+template <std::size_t capacity = 512>
 class nothrow_format_buffer {
-    constexpr static std::string_view format_exception_message = opts.format_exception_message;
-    constexpr static std::string_view buffer_exhausted_message = opts.buffer_exhausted_message;
+    constexpr static std::string_view format_exception_message = "[format_exception]";
+    constexpr static std::string_view buffer_exhausted_message = "[buffer_exhausted]";
 
-    constexpr static std::size_t format_capacity = opts.format_capacity;
+    constexpr static std::size_t format_capacity = capacity;
     constexpr static std::size_t string_capacity = format_capacity + buffer_exhausted_message.size();
     constexpr static std::size_t buffer_capacity = string_capacity + 1; // + 1 ensures null-terminator
 
@@ -68,6 +62,7 @@ public:
     const char* c_str() const noexcept {
         return this->buffer.data();
     }
+    
 };
 
 } // namespace tmc

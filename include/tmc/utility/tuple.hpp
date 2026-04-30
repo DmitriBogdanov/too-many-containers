@@ -5,25 +5,22 @@
 
 #pragma once
 
-// Content: Tuple type used by the library
-
-#include <tuple> // std::tuple<>
-
+#include <tuple> // tuple<>, make_tuple(), forward_as_tuple(), apply(), get()
 
 namespace tmc {
 
+// Note: API stub for future re-implementation. Using modern metaprogramming `std::tuple` 
+//       can be implemented in a significantly more efficient manner (both in terms of 
+//       compile time overhead and runtime overhead). The reason same optimization
+//       cannot be applied to the standard tuple is ABI ossification, see
+//       https://github.com/codeinred/tuplet and Boost.Beast internals for more details.
+
 template <class... Args>
 using tuple = std::tuple<Args...>;
-
-// Note: Ideally, we should re-implement tuple using fold expressions and modern metaprogramming,
-//       this can significantly cut down on compile times for large tuples and even affects
-//       performance for trivial types (`std::tuple` cannot be made trivially copyable or
-//       rewritten due to ABI ossification, see https://github.com/codeinred/tuplet and
-//       Boost.Beast internal tuple implementation.
 
 using std::make_tuple;
 using std::forward_as_tuple;
 using std::apply;
 using std::get;
-
+    
 } // namespace tmc

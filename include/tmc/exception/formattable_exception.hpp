@@ -7,6 +7,7 @@
 
 #include <exception> // exception
 #include <format>    // format_string<>
+#include <utility>   // forward()
 
 #include <tmc/utility/nothrow_format_buffer.hpp>
 #include <tmc/utility/source_location_capture.hpp>
@@ -32,6 +33,7 @@ public:
     }
 
     virtual const char* what() const noexcept { return this->buffer.c_str(); }
+    
 };
     
 } // namespace tmc

@@ -10,9 +10,9 @@
 namespace tmc {
 
 struct runtime_error : formattable_exception<> {
-    using base = formattable_exception;
-
-    using base::base;
+    
+    using formattable_exception::formattable_exception;
+    
 };
 
 } // namespace tmc
