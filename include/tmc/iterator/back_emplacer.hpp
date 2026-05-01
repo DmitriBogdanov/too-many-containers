@@ -37,8 +37,8 @@ protected:
 public:
     explicit constexpr back_emplace_iterator(container_type& c) noexcept : c(std::addressof(c)) {}
 
-    constexpr back_emplace_iterator& operator*() noexcept { return *this; }
-    constexpr back_emplace_iterator& operator++() noexcept { return *this; }
+    constexpr back_emplace_iterator& operator* (   ) noexcept { return *this; }
+    constexpr back_emplace_iterator& operator++(   ) noexcept { return *this; }
     constexpr back_emplace_iterator& operator++(int) noexcept { return *this; }
 
     // Regular single-argument emplacement
