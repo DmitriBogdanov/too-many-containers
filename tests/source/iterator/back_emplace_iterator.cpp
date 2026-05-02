@@ -10,7 +10,7 @@
 #include <iterator>  // back_insert_iterator<>
 #include <vector>    // vector<>
 
-#include <tmc/iterator/back_emplacer.hpp>
+#include <tmc/iterator/back_emplace_iterator.hpp>
 #include <tmc/utility/tuple.hpp>
 
 TEST_CASE("Compile-time requirements") {
