@@ -1,6 +1,7 @@
 # Create test target
 add_executable(tmc_test
     "source/main.cpp"
+    "source/concurrency/locked_ref.cpp"
     "source/iterator/back_emplacer.cpp"
 )
 
