@@ -1,7 +1,10 @@
 # Create test target
 add_executable(tmc_test
     "source/main.cpp"
+    "source/concept/has_is_transparent.cpp"
     "source/concurrency/locked_ref.cpp"
+    "source/functional/singular_closure.cpp"
+    "source/functional/variadic_closure.cpp"
     "source/iterator/back_emplacer.cpp"
     "source/numeric/approx.cpp"
     "source/numeric/isfinite.cpp"
