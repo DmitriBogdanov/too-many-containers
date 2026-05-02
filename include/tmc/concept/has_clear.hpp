@@ -5,6 +5,11 @@
 
 #pragma once
 
-#define TMC_VERSION_MAJOR 0
-#define TMC_VERSION_MINOR 4
-#define TMC_VERSION_PATCH 0
+namespace tmc {
+
+template <class R>
+concept has_clear = requires(R range) {
+    range.clear();
+};
+
+} // namespace tmc

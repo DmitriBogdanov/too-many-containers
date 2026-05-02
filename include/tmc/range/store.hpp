@@ -6,7 +6,7 @@
 #pragma once
 
 #include <algorithm> // ranges::move(), ranges::copy()
-#include <concepts>  // constructible_from<>
+#include <concepts>  // constructible_from<>, same_as<>
 #include <iterator>  // indirectly_movable<>, indirectly_copyable<>
 #include <ranges>    // ranges::range<>, ranges::range_adaptor_closure<>, ranges::iterator_t<>, ranges::begin()
 #include <utility>   // forward()
@@ -47,11 +47,14 @@ public:
         std::indirectly_movable <std::ranges::iterator_t<R>, std::ranges::iterator_t<T>> or
         std::indirectly_copyable<std::ranges::iterator_t<R>, std::ranges::iterator_t<T>>
     constexpr decltype(auto) operator()(R&& range) {
-        constexpr bool can_move = std::indirectly_movable <std::ranges::iterator_t<R>, std::ranges::iterator_t<T>>;
-        constexpr bool can_copy = std::indirectly_copyable<std::ranges::iterator_t<R>, std::ranges::iterator_t<T>>;
-
-        if constexpr (can_move) std::ranges::move(std::forward<R>(range), std::ranges::begin(this->target));
-        if constexpr (can_copy) std::ranges::copy(std::forward<R>(range), std::ranges::begin(this->target));
+        constexpr bool is_rvalue_range = std::same_as<
+            std::ranges::range_reference_t<R>, std::ranges::range_rvalue_reference_t<R>
+        >;
+        
+        if constexpr (is_rvalue_range)
+            std::ranges::move(std::forward<R>(range), std::ranges::begin(this->target));
+        else
+            std::ranges::copy(std::forward<R>(range), std::ranges::begin(this->target));
 
         return this->target;
     }

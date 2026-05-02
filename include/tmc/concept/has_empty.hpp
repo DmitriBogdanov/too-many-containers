@@ -5,6 +5,13 @@
 
 #pragma once
 
-#define TMC_VERSION_MAJOR 0
-#define TMC_VERSION_MINOR 4
-#define TMC_VERSION_PATCH 0
+#include <concepts> // convertible_to<>
+
+namespace tmc {
+
+template <class R>
+concept has_empty = requires(R range) {
+    { range.empty() } -> std::convertible_to<bool>;
+};
+    
+} // namespace tmc
