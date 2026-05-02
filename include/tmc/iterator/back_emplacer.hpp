@@ -48,6 +48,8 @@ public:
         noexcept(has_nothrow_emplace_back<container_type, Arg>)
     {
         this->c->emplace_back(std::forward<Arg>(arg));
+        
+        return *this;
     }
 
     // Multi-argument emplacement with `tmc::emplace_args<>`
@@ -58,8 +60,10 @@ public:
     {
         tmc::apply(
             [&](auto&&... args) { this->c->emplace_back(std::forward<decltype(args)>(args)...); },
-            std::move(packed_args)
+            std::move(packed_args.value)
         );
+        
+        return *this;
     }
 
     template <class... Args>
@@ -69,8 +73,10 @@ public:
     {
         tmc::apply([&](auto&&... args) {
             this->c->emplace_back(std::forward<decltype(args)>(args)...); },
-            packed_args
+            packed_args.value
         );
+        
+        return *this;
     }
 
     template <class... Args>
@@ -80,8 +86,10 @@ public:
     {
         tmc::apply(
             [&](auto&&... args) { this->c->emplace_back(std::forward<decltype(args)>(args)...); },
-            packed_args
+            packed_args.value
         );
+        
+        return *this;
     }
 };
 
