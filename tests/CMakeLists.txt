@@ -1,6 +1,7 @@
 # Create test target
 add_executable(tmc_test
     "source/main.cpp"
+    "source/iterator/back_emplacer.cpp"
 )
 
 target_compile_features   (tmc_test PRIVATE ${TMC_COMPILE_FEATURES}              )
