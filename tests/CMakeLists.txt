@@ -3,6 +3,8 @@ add_executable(tmc_test
     "source/main.cpp"
     "source/concurrency/locked_ref.cpp"
     "source/iterator/back_emplacer.cpp"
+    "source/numeric/approx.cpp"
+    "source/numeric/isfinite.cpp"
 )
 
 target_compile_features   (tmc_test PRIVATE ${TMC_COMPILE_FEATURES}              )
