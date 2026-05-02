@@ -17,8 +17,9 @@ Emplacement iterators are a natural extension of traditional insertion iterators
 | `std::back_inserter()`  | `tmc::back_emplacer()`  | Uses `emplace_back()` instead of `push_back()`   |
 | `std::front_inserter()` | `tmc::front_emplacer()` | Uses `emplace_front()` instead of `push_front()` |
 | `std::inserter()`       | `tmc::emplacer()`       | Uses `emplace()` instead of `insert()`           |
+| -                       | `tmc::try_emplacer()`   | Uses `try_emplace()`                             |
 
-An obvious limitation of emplacement iterators, is that `operator=()` can only accept a single argument, making arbitrary emplacement seemingly impossible to achieve with iterators. To circumvent this limitation we can forward constructor arguments as a tuple of references using `tmc::make_emplace_args()`. For example:
+An obvious limitation of emplacement iterators, is that `operator=()` can only accept a single argument, making arbitrary emplacement seemingly impossible to achieve with iterators. To circumvent this limitation we can forward constructor arguments as a strongly-typed tuple of references using `tmc::make_emplace_args()`. For example:
 
 ```cpp
 std::vector<std::array<double, 3>> vector;
@@ -26,7 +27,7 @@ std::vector<std::array<double, 3>> vector;
 std::fill_n(tmc::back_emplacer(vector), 16, tmc::make_emplace_args(1.0, 2.0, 3.0));
 ```
 
-Iterators returned by `tmc::back_emplacer()`, `tmc::front_emplacer()` and `tmc::emplacer()` provide the exact same API and guarantees as their standard counterparts. As always, everything is concept-constrained, `constexpr` and `noexcept` if possible.
+Iterators returned by `tmc::back_emplacer()`, `tmc::front_emplacer()`, `tmc::emplacer()` and `tmc::try_emplacer()` provide the exact same API and guarantees as their standard counterparts. As always, everything is concept-constrained, `constexpr` and `noexcept` if possible.
 
 ### Approximate float comparator
 
