@@ -5,6 +5,13 @@
 
 #pragma once
 
-#define TMC_VERSION_MAJOR 0
-#define TMC_VERSION_MINOR 7
-#define TMC_VERSION_PATCH 0
+#include <tmc/concept/is_non_void.hpp>
+
+namespace tmc {
+
+template <class R>
+concept has_top = requires(R range) {
+    { range.top() } -> is_non_void;
+};
+
+} // namespace tmc

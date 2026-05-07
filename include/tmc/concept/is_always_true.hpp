@@ -5,6 +5,9 @@
 
 #pragma once
 
-#define TMC_VERSION_MAJOR 0
-#define TMC_VERSION_MINOR 7
-#define TMC_VERSION_PATCH 0
+namespace tmc {
+
+template <class T>
+concept is_always_true = true;
+    
+} // namespace tmc

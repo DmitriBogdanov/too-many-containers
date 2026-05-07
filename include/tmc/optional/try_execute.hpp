@@ -19,6 +19,7 @@
 namespace tmc {
 
 template <class Func, class Range, class... Args>
+    requires std::ranges::input_range<Range> and std::invocable<Func, Range, Args...>
 class try_execute_result {
     using invoke_result = std::invoke_result_t<Func, Range, Args...>;
 public:
@@ -26,6 +27,7 @@ public:
 };
 
 template <class Func, class Range, class... Args>
+    requires std::ranges::input_range<Range> and std::invocable<Func, Range, Args...>
 using try_execute_result_t = try_execute_result<Func, Range, Args...>::type;
 
 // Attempt to invoke function object `func` that operates on non-empty `range` and 
@@ -36,7 +38,7 @@ using try_execute_result_t = try_execute_result<Func, Range, Args...>::type;
 //    > const auto max = tmc::try_execute(std::ranges::max, range).value_or(0);
 //
 template <class Func, class Range, class... Args>
-    requires std::ranges::input_range<Range> and std::invocable<Func, Range, Args...> 
+    requires std::ranges::input_range<Range> and std::invocable<Func, Range, Args...>
 constexpr try_execute_result_t<Func, Range, Args...> try_execute(Func&& func, Range&& range, Args&&... args)
     noexcept(
         is_nothrow_invocable<Func, Range, Args...> and

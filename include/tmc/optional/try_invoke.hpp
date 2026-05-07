@@ -19,6 +19,7 @@
 namespace tmc {
 
 template <class Func, class... Args>
+    requires std::invocable<Func, Args...>
 class try_invoke_result {
     using invoke_result = std::invoke_result_t<Func, Args...>;
 public:
@@ -26,6 +27,7 @@ public:
 };
 
 template <class Func, class... Args>
+    requires std::invocable<Func, Args...>
 using try_invoke_result_t = try_invoke_result<Func, Args...>::type;
 
 // Attempt to invoke function object `func` with `args...` and forward its
