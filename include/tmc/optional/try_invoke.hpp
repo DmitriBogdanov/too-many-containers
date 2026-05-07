@@ -31,7 +31,9 @@ using try_invoke_result_t = try_invoke_result<Func, Args...>::type;
 // Attempt to invoke function object `func` with `args...` and forward its
 // return value as an optional (or `bool` for functions that return `void`).
 //
-// Use case: Invoking potentially empty `std::function` and other nullable function objects
+// Use case: Invoking potentially nullable function objects, e.g. `std::function`:
+//
+//    > const auto value = tmc::try_invoke(func, arg).value_or(0);
 //
 template <class Func, class... Args>
     requires std::invocable<Func, Args...>
