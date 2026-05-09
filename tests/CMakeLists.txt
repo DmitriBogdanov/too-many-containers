@@ -11,6 +11,7 @@ add_executable(tmc_test
     "source/optional/try_execute.cpp"
     "source/optional/try_invoke.cpp"
     "source/optional/try_pop.cpp"
+    "source/projection/element.cpp"
 )
 
 target_compile_features   (tmc_test PRIVATE ${TMC_COMPILE_FEATURES}              )

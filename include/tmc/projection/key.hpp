@@ -5,6 +5,10 @@
 
 #pragma once
 
-#define TMC_VERSION_MAJOR 0
-#define TMC_VERSION_MINOR 8
-#define TMC_VERSION_PATCH 0
+#include <tmc/projection/element.hpp>
+
+namespace tmc::projections {
+
+using key = element<0>;
+    
+} // namespace tmc::projections
