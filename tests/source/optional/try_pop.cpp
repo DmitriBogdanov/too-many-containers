@@ -5,8 +5,9 @@
 
 #include <common/framework.hpp>
 
-#include <stack>
+#include <deque>
 #include <queue>
+#include <stack>
 
 #include <tmc/optional/try_pop.hpp>
 
@@ -44,4 +45,15 @@ TEST_CASE("Try pop from queue") {
     using correct_result_type = tmc::optional<int>;
     
     static_assert(std::same_as<checked_result_type, correct_result_type>);
+}
+
+template <class C>
+concept can_try_pop = requires (C c) {
+    tmc::try_pop(c);
+};
+
+TEST_CASE("Compile-time ambiguity protection") {
+    static_assert(    can_try_pop<std::stack<int>>);
+    static_assert(    can_try_pop<std::queue<int>>);
+    static_assert(not can_try_pop<std::deque<int>>);
 }

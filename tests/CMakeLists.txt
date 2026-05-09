@@ -8,6 +8,7 @@ add_executable(tmc_test
     "source/iterator/back_emplace_iterator.cpp"
     "source/numeric/approx.cpp"
     "source/numeric/isfinite.cpp"
+    "source/optional/try_invoke.cpp"
     "source/optional/try_pop.cpp"
 )
 
