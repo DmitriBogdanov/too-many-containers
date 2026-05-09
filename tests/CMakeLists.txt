@@ -5,9 +5,10 @@ add_executable(tmc_test
     "source/concurrency/locked_ref.cpp"
     "source/functional/singular_closure.cpp"
     "source/functional/variadic_closure.cpp"
-    "source/iterator/back_emplacer.cpp"
+    "source/iterator/back_emplace_iterator.cpp"
     "source/numeric/approx.cpp"
     "source/numeric/isfinite.cpp"
+    "source/optional/try_pop.cpp"
 )
 
 target_compile_features   (tmc_test PRIVATE ${TMC_COMPILE_FEATURES}              )
