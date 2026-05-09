@@ -11,7 +11,7 @@
 #include <utility>     // forward()
 
 #include <tmc/concept/is_bool_testable.hpp>
-#include <tmc/concept/is_void.hpp>
+#include <tmc/concept/is_non_void.hpp>
 #include <tmc/container/optional.hpp>
 #include <tmc/requirement/is_nothrow_constructible.hpp>
 #include <tmc/requirement/is_nothrow_invocable.hpp>
@@ -23,7 +23,7 @@ template <class Func, class... Args>
 class try_invoke_result {
     using invoke_result = std::invoke_result_t<Func, Args...>;
 public:
-    using type = std::conditional_t<is_void<invoke_result>, bool, optional<invoke_result>>;
+    using type = std::conditional_t<is_non_void<invoke_result>, optional<invoke_result>, bool>;
 };
 
 template <class Func, class... Args>
@@ -47,13 +47,21 @@ constexpr try_invoke_result_t<Func, Args...> try_invoke(Func&& func, Args&&... a
 {
     using result_type = try_invoke_result_t<Func, Args...>;
     
-    if constexpr (not is_boolean_testable<Func>)
-        return result_type{ std::invoke(func, std::forward<Args>(args)...) };
+    constexpr bool requires_test = is_boolean_testable<Func>;
+    constexpr bool returns_value = is_non_void<std::invoke_result_t<Func, Args...>>;
     
-    if (func)
-        return result_type{ std::invoke(func, std::forward<Args>(args)...) };
-
-    return result_type{};
+    if constexpr (requires_test) {
+        if constexpr (returns_value)
+            return func ? result_type{ std::invoke(func, std::forward<Args>(args)...) } : result_type{};
+        else
+            return func ? (std::invoke(func, std::forward<Args>(args)...), true) : false;
+    }
+    else {
+        if constexpr (returns_value)
+            return result_type{ std::invoke(func, std::forward<Args>(args)...) };
+        else
+            return (std::invoke(func, std::forward<Args>(args)...), true);
+    }
 }
 
 } // namespace tmc
