@@ -11,11 +11,11 @@
 
 namespace tmc::projections {
 
-// Bind free function to a type.
+// Binds free function to a type.
 // 
 // Note: While not the main purpose, in many cases binding free function
-//       to a type before passing it to the algorithm aids in inlining,
-//       compilers struggle to see inlining through function pointers.
+//       to a type before passing it into an algorithm aids in inlining,
+//       compilers often struggle to inline through function pointers.
 //
 template <auto function>
 struct bind {

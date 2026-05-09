@@ -13,6 +13,7 @@ add_executable(tmc_test
     "source/optional/try_pop.cpp"
     "source/projection/bind.cpp"
     "source/projection/element.cpp"
+    "source/projection/through.cpp"
 )
 
 target_compile_features   (tmc_test PRIVATE ${TMC_COMPILE_FEATURES}              )
