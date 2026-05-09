@@ -20,7 +20,7 @@ namespace tmc::projections {
 // This is often useful for running algorithms on ranges that index into another range, e.g.:
 //
 //    > const auto edge_indices = std::array{ 2, 3, 5 };
-//    > const auto edge_weights = std::array{ 0., 0., 2., 7., 0., 5. }
+//    > const auto edge_weights = std::array{ 0., 0., 2., 7., 0., 5. };
 //    >
 //    > const auto max_edge = std::ranges::max(edge_indices, tmc::less_by{ tmc::projections::through{ edge_weights } });
 //

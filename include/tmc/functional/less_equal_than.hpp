@@ -15,7 +15,7 @@ struct less_equal_than : singular_closure<T> {
     
     template <class Arg>
     constexpr decltype(auto) operator()(const Arg& arg) const
-        noexcept(tmc::less_equal{}(arg, this->value))
+        noexcept(noexcept(tmc::less_equal{}(arg, this->value)))
     {
         return tmc::less_equal{}(arg, this->value);
     }

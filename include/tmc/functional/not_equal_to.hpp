@@ -15,7 +15,7 @@ struct not_equal_to : singular_closure<T> {
     
     template <class Arg>
     constexpr decltype(auto) operator()(const Arg& arg) const
-        noexcept(tmc::not_equal{}(arg, this->value))
+        noexcept(noexcept(tmc::not_equal{}(arg, this->value)))
     {
         return tmc::not_equal{}(arg, this->value);
     }

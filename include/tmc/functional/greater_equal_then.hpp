@@ -15,7 +15,7 @@ struct greater_equal_than : singular_closure<T> {
     
     template <class Arg>
     constexpr decltype(auto) operator()(const Arg& arg) const
-        noexcept(tmc::greater_equal{}(arg, this->value))
+        noexcept(noexcept(tmc::greater_equal{}(arg, this->value)))
     {
         return tmc::greater_equal{}(arg, this->value);
     }
