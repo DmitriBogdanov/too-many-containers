@@ -11,7 +11,7 @@
 #include <type_traits> // conditional_t<>
 #include <utility>     // forward()
 
-#include <tmc/concept/is_void.hpp>
+#include <tmc/concept/is_non_void.hpp>
 #include <tmc/container/optional.hpp>
 #include <tmc/requirement/is_nothrow_constructible.hpp>
 #include <tmc/requirement/is_nothrow_invocable.hpp>
@@ -23,7 +23,7 @@ template <class Func, class Range, class... Args>
 class try_execute_result {
     using invoke_result = std::invoke_result_t<Func, Range, Args...>;
 public:
-    using type = std::conditional_t<is_void<invoke_result>, bool, optional<invoke_result>>;
+    using type = std::conditional_t<is_non_void<invoke_result>, optional<invoke_result>, bool>;
 };
 
 template <class Func, class Range, class... Args>
@@ -49,7 +49,10 @@ constexpr try_execute_result_t<Func, Range, Args...> try_execute(Func&& func, Ra
     
     if (std::ranges::empty(range)) return result_type{};
     
-    return result_type{ std::invoke(func, std::forward<Range>(range), std::forward<Args>(args)...) };
+    if constexpr (is_non_void<std::invoke_result_t<Func, Range, Args...>>)
+        return result_type{ std::invoke(func, std::forward<Range>(range), std::forward<Args>(args)...) };
+    else
+        return (std::invoke(func, std::forward<Range>(range), std::forward<Args>(args)...), true);
 }
     
 } // namespace tmc
