@@ -17,7 +17,7 @@ struct element {
 
     template <class T>
         requires can_adl_get<T, index>
-    TMC_NO_DISCARD constexpr decltype(auto) operator()(T&& value)
+    TMC_NO_DISCARD constexpr decltype(auto) operator()(T&& value) const
         noexcept(noexcept(get<index>(value)))
     {
         return get<index>(value);

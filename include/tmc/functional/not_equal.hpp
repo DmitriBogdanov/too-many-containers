@@ -13,7 +13,7 @@ namespace tmc {
 struct not_equal {
     
     template <class L, class R>
-    constexpr decltype(auto) operator()(L&& lhs, R&& rhs) const 
+    constexpr decltype(auto) operator()(L&& lhs, R&& rhs) const
         noexcept(noexcept(std::forward<L>(lhs) != std::forward<R>(rhs)))
     {
         return std::forward<L>(lhs) != std::forward<R>(rhs);

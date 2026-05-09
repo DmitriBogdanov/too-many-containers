@@ -14,7 +14,6 @@
 #include <tmc/concept/has_top.hpp>
 #include <tmc/concept/is_always_false.hpp>
 #include <tmc/container/optional.hpp>
-#include <tmc/macro/no_discard.hpp>
 
 namespace tmc::detail {
 
@@ -66,7 +65,7 @@ template <class C>
     requires
     (detail::is_stack<C> or detail::is_queue<C>) and
     (detail::is_stack<C> != detail::is_queue<C>)
-TMC_NO_DISCARD try_pop_result_t<C> try_pop(C& container) {
+constexpr try_pop_result_t<C> try_pop(C& container) {
     using result_type = try_pop_result_t<C>;
     
     if (container.empty()) return result_type{};
