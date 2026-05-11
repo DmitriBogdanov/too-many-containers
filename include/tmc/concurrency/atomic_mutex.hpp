@@ -21,7 +21,7 @@ namespace tmc {
 //
 class atomic_mutex {
     std::atomic_flag flag = {};
-    
+
 public:
 
     bool try_lock() noexcept {
@@ -32,13 +32,13 @@ public:
         while (this->flag.test_and_set(std::memory_order_acquire))
             this->flag.wait(true, std::memory_order_relaxed);
     }
-    
+
     void unlock() noexcept {
         this->flag.clear(std::memory_order_release);
         
         this->flag.notify_one();
     }
-    
+
 };
-    
+
 } // namespace tmc

@@ -2,6 +2,7 @@
 add_executable(tmc_test
     "source/main.cpp"
     "source/concept/has_is_transparent.cpp"
+    "source/concurrency/spin_mutex.cpp"
     "source/concurrency/atomic_mutex.cpp"
     "source/concurrency/locked_ref.cpp"
     "source/functional/less_by.cpp"
