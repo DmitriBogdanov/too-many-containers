@@ -45,14 +45,14 @@ concept satisfies_allocator = requires(
     std::allocator_traits<A>::size_type                                 n
 ) {
     // Allocated type requirements
-    requires satisfies_object<T>;
+    requires satisfies_object <T>;
     requires is_cv_unqualified<T>;
 
     // Member type requirements
     requires std::same_as<T, typename A::value_type>;
 
     // Pointer expressions requirements
-    { *p } -> std::same_as<T&>;
+    { * p } -> std::same_as<      T&>;
     { *cp } -> std::same_as<const T&>;
 
     // Allocator expressions requirements
@@ -60,7 +60,7 @@ concept satisfies_allocator = requires(
 
     a.deallocate(p, n);
 
-    static_cast<decltype(p)>(vp);
+    static_cast<decltype( p)>( vp);
     static_cast<decltype(cp)>(cvp);
 
     // Instance relationship requirements
@@ -69,12 +69,12 @@ concept satisfies_allocator = requires(
 
     // Construction requirements
     requires is_nothrow_copy_constructible<A>;
-    requires is_nothrow_copy_assignable<A>;
+    requires is_nothrow_copy_assignable   <A>;
 
     requires is_nothrow_constructible<A, const decltype(b)&>;
 
     requires is_nothrow_move_constructible<A>;
-    requires is_nothrow_move_assignable<A>;
+    requires is_nothrow_move_assignable   <A>;
 
     requires is_nothrow_constructible<A, decltype(b)&&>;
 };
