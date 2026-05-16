@@ -11,19 +11,19 @@
 #include <tmc/macro/no_discard.hpp>
 #include <tmc/requirement/is_nothrow_constructible.hpp>
 
-namespace tmc {
+namespace tmc::projections {
 
-template <class To>
+template <class T>
 struct construct {
 
-    template <class From>
-        requires std::constructible_from<To, From>
-    TMC_NO_DISCARD constexpr auto operator()(From&& value)
-        noexcept(is_nothrow_constructible<From, To>)
+    template <class Arg>
+        requires std::constructible_from<T, Arg>
+    TMC_NO_DISCARD constexpr auto operator()(Arg&& arg) const
+        noexcept(is_nothrow_constructible<Arg, T>)
     {
-        return static_cast<To>(std::forward<From>(value));
+        return static_cast<T>(std::forward<Arg>(arg));
     }
     
 };
 
-} // namespace tmc
+} // namespace tmc::projections

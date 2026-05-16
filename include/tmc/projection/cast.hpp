@@ -11,19 +11,19 @@
 #include <tmc/macro/no_discard.hpp>
 #include <tmc/requirement/is_nothrow_convertible.hpp>
 
-namespace tmc {
+namespace tmc::projections {
 
-template <class To>
+template <class T>
 struct cast {
 
-    template <class From>
-        requires std::convertible_to<From, To>
-    TMC_NO_DISCARD constexpr auto operator()(From&& value)
-        noexcept(is_nothrow_convertible<From, To>)
+    template <class Arg>
+        requires std::convertible_to<Arg, T>
+    TMC_NO_DISCARD constexpr auto operator()(Arg&& arg) const
+        noexcept(is_nothrow_convertible<Arg, T>)
     {
-        return static_cast<To>(std::forward<From>(value));
+        return static_cast<T>(std::forward<Arg>(arg));
     }
     
 };
 
-} // namespace tmc
+} // namespace tmc::projections

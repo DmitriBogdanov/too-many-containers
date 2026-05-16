@@ -5,18 +5,22 @@
 
 #pragma once
 
-#include <atomic>  // atomic_ref<>
-#include <utility> // forward()
+#include <atomic> // atomic_ref<>
 
 #include <tmc/macro/no_discard.hpp>
 
 namespace tmc::projections {
 
 struct atomic {
-
+    
     template <class T>
-    TMC_NO_DISCARD constexpr auto operator()(T&& value) noexcept {
-        return std::atomic_ref{ std::forward<T>(value) };
+    TMC_NO_DISCARD constexpr decltype(auto) operator()(const T& value) const noexcept {
+        return value; // const references are inherently thread-safe, just forward them
+    }
+    
+    template <class T>
+    TMC_NO_DISCARD constexpr decltype(auto) operator()(T& value) const noexcept {
+        return std::atomic_ref{ value };
     }
 
 };
