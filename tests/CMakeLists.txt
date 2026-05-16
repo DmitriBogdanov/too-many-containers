@@ -18,6 +18,10 @@ add_executable(tmc_test
     "source/projection/bind.cpp"
     "source/projection/element.cpp"
     "source/projection/through.cpp"
+    "source/view/atomic.cpp"
+    "source/view/cast.cpp"
+    "source/view/construct.cpp"
+    "source/view/through.cpp"
 )
 
 target_compile_features   (tmc_test PRIVATE ${TMC_COMPILE_FEATURES}              )
