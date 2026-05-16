@@ -5,6 +5,11 @@
 
 #pragma once
 
-#define TMC_VERSION_MAJOR 0
-#define TMC_VERSION_MINOR 15
-#define TMC_VERSION_PATCH 0
+#include <type_traits> // is_nothrow_convertible_v<>
+
+namespace tmc {
+
+template <class T, class... Args>
+concept is_nothrow_convertible = std::is_nothrow_convertible_v<T, Args...>;
+
+} // namespace tmc
