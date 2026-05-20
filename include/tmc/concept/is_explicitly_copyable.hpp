@@ -5,6 +5,11 @@
 
 #pragma once
 
-#define TMC_VERSION_MAJOR 0
-#define TMC_VERSION_MINOR 17
-#define TMC_VERSION_PATCH 0
+#include <concepts> // constructible_from<>
+
+namespace tmc {
+
+template <class T>
+concept is_explicitly_copyable = std::constructible_from<T, const T&>;
+
+} // namespace tmc

@@ -22,6 +22,7 @@ add_executable(tmc_test
     "source/view/cast.cpp"
     "source/view/construct.cpp"
     "source/view/through.cpp"
+    "source/utility/clone.cpp"
 )
 
 target_compile_features   (tmc_test PRIVATE ${TMC_COMPILE_FEATURES}              )
