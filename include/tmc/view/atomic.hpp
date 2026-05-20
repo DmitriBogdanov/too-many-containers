@@ -12,5 +12,5 @@
 namespace tmc::views {
 
 inline constexpr auto atomic = std::views::transform(projections::atomic{});
-    
+
 } // namespace tmc::views

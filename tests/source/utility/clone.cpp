@@ -3,9 +3,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-#include <concepts> // copyable<>, same_as<>
-
 #include <common/framework.hpp>
+
+#include <concepts> // copyable<>, same_as<>
+#include <utility>  // as_const(), move()
 
 #include <tmc/utility/clone.hpp>
 #include <tmc/concept/is_explicitly_copyable.hpp>

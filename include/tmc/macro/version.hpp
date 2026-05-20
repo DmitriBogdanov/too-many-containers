@@ -6,5 +6,5 @@
 #pragma once
 
 #define TMC_VERSION_MAJOR 0
-#define TMC_VERSION_MINOR 17
+#define TMC_VERSION_MINOR 18
 #define TMC_VERSION_PATCH 0

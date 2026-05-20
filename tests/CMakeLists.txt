@@ -21,6 +21,7 @@ add_executable(tmc_test
     "source/view/atomic.cpp"
     "source/view/cast.cpp"
     "source/view/construct.cpp"
+    "source/view/indices.cpp"
     "source/view/through.cpp"
     "source/utility/clone.cpp"
 )

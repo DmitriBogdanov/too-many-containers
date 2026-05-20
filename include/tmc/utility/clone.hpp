@@ -14,6 +14,7 @@
 
 namespace tmc {
 
+// Deduce type & create explicit copy of the value
 template <class T, class V = std::remove_cvref_t<T>>
     requires is_explicitly_copyable<V>
 TMC_NO_DISCARD auto clone(T&& value)

@@ -5,13 +5,13 @@
 
 #pragma once
 
-#include <ranges> // views::transform
-
-#include <tmc/projection/cast.hpp>
+#include <concepts> // integral<>
+#include <ranges>   // views::iota
 
 namespace tmc::views {
 
-template <class T>
-inline constexpr auto cast = std::views::transform(projections::cast<T>{});
+inline constexpr auto counted = [] <std::integral T> (T size) {
+    return std::views::iota(T(0), size);
+};
 
 } // namespace tmc::views

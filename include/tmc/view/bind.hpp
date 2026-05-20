@@ -13,5 +13,5 @@ namespace tmc::views {
 
 template <auto function>
 inline constexpr auto bind = std::views::transform(projections::bind<function>{});
-    
+
 } // namespace tmc::views

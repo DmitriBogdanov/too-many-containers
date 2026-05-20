@@ -13,5 +13,5 @@ namespace tmc::views {
 
 template <class T>
 inline constexpr auto construct = std::views::transform(projections::construct<T>{});
-    
+
 } // namespace tmc::views
