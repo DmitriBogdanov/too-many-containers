@@ -24,6 +24,7 @@ add_executable(tmc_test
     "source/view/indices.cpp"
     "source/view/through.cpp"
     "source/utility/clone.cpp"
+    "source/utility/ignore.cpp"
 )
 
 target_compile_features   (tmc_test PRIVATE ${TMC_COMPILE_FEATURES}              )
