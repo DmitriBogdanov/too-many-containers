@@ -5,18 +5,19 @@
 
 #pragma once
 
-#include <algorithm> // ranges::sort, sortable
+#include <algorithm> // ranges::sort, sortable<>
 #include <ranges>    // ranges::random_access_range<>, ranges::iterator_t<>
 #include <utility>   // forward()
 
 #include <tmc/functional/less.hpp>
+#include <tmc/concept/can_sort.hpp>
 
 namespace tmc::actions {
 
 struct sort_t : std::ranges::range_adaptor_closure<sort_t> {
 
     template <std::ranges::random_access_range R, class Comp = less, class Proj = std::identity>
-        requires std::sortable<std::ranges::iterator_t<R>, Comp, Proj>
+        requires can_sort<R, Comp, Proj>
     constexpr decltype(auto) operator()(R&& range, Comp&& comp = {}, Proj&& proj = {}) const {
         std::ranges::sort(range, std::forward<Comp>(comp), std::forward<Proj>(proj));
 
